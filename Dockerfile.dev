@@ -1,0 +1,26 @@
+FROM node:18-alpine
+
+USER node
+
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+
+COPY --chown=node:node ./package.json ./
+RUN npm install
+COPY --chown=node:node ./ ./
+
+CMD ["npm", "start"]
+
+# Docker build command for creating image from Dockerfile.dev
+# docker build -f Dockerfile.dev -t swich313:frontend .
+
+# Docker run command for dev mode using docker volume (can be used docker-compose)
+# docker run -p 3000:3000 -v /home/node/app/node_modules -v ~/frontend:/home/node/app swich313:frontend
+
+# Docker run command for test mode without updating on changing App.test.js
+# docker run -it -t swich313:frontend npm run test
+
+# run 'docker-compose up' get id of the container by running 'docker ps' and run next command to have access to terminal input
+# docker exec -it <CONTAINER ID> npm run test
+
+
